@@ -21,7 +21,6 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-
     @Override
     public TimeEntry create(TimeEntry timeEntry) {
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
@@ -44,7 +43,6 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
         return find(generatedKeyHolder.getKey().longValue());
     }
 
-
     @Override
     public TimeEntry find(Long id) {
         return jdbcTemplate.query(
@@ -53,13 +51,10 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
                 extractor);
     }
 
-
-
     @Override
     public List<TimeEntry> list() {
         return jdbcTemplate.query("SELECT id, project_id, user_id, date, hours FROM time_entries", mapper);
     }
-
 
     @Override
     public TimeEntry update(Long id, TimeEntry timeEntry) {
@@ -74,7 +69,6 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
 
         return find(id);
     }
-
 
     @Override
     public void delete(Long id) {
@@ -91,5 +85,4 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
 
     private final ResultSetExtractor<TimeEntry> extractor =
             (rs) -> rs.next() ? mapper.mapRow(rs, 1) : null;
-
 }
