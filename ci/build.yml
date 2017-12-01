@@ -18,6 +18,7 @@ run:
   args:
   - -exc
   - |
+
     export DEBIAN_FRONTEND="noninteractive"
 
     apt-get update
@@ -28,7 +29,7 @@ run:
     cd pal-tracker
     mysql -uroot < databases/tracker/create_databases.sql
     chmod +x gradlew
-    ./gradlew testMigrate clean build || (service mysql stop && exit 1)
+    ./gradlew -P version=$(cat ../version/number) testMigrate clean build || (service mysql stop && exit 1)
     service mysql stop
 
     cp build/libs/pal-tracker.jar ../build-output/pal-tracker-`cat ../version/number`.jar
